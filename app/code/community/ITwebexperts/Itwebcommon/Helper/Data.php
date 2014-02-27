@@ -14,6 +14,11 @@ class ITwebexperts_Itwebcommon_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::helper('core')->isModuleEnabled('ITwebexperts_PPRWarehouse');
     }
 
+	public function hasPayperrentals()
+	{
+		return Mage::helper('core')->isModuleEnabled('ITwebexperts_Payperrentals');
+	}
+
     public function hasFooman()
     {
         if (is_null($this->_hasFooman)) {
