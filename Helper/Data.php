@@ -16,7 +16,6 @@ class ITwebexperts_Itwebcommon_Helper_Data extends Mage_Core_Helper_Abstract
 
 	public function hasPayperrentals()
 	{
-        return 1;
 		return Mage::helper('core')->isModuleEnabled('ITwebexperts_Payperrentals');
 	}
 
