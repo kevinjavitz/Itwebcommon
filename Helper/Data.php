@@ -8,29 +8,41 @@ class ITwebexperts_Itwebcommon_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_hasFooman;
     protected $_hasWarehouse;
 
-
+    /**
+     * Checks if warehouse extension is installed
+     * @return bool
+     */
     public function hasWarehouse()
     {
         return Mage::helper('core')->isModuleEnabled('ITwebexperts_PPRWarehouse');
     }
 
-	public function hasPayperrentals()
+    /**
+     * Checks if Amasty order attribute is installed
+     * @return bool
+     */
+    public function hasAmastyOrderattr()
+    {
+        return Mage::helper('core')->isModuleEnabled('Amasty_Orderattr');
+    }
+
+    /**
+     * Checks if Amasty customer attribute is installed
+     * @return bool
+     */
+    public function hasAmastyCustomerattr()
+    {
+        return Mage::helper('core')->isModuleEnabled('Amasty_Customerattr');
+    }
+
+    /**
+     * Checks if payperrentals is installed
+     * @return bool
+     */
+    public function hasPayperrentals()
 	{
 		return Mage::helper('core')->isModuleEnabled('ITwebexperts_Payperrentals');
 	}
-
-    public function hasFooman()
-    {
-        if (is_null($this->_hasFooman)) {
-            $modules = (array)Mage::getConfig()->getNode('modules')->children();
-            if (isset($modules['Fooman_PdfCustomiser'])) {
-                $this->_hasFooman = true;
-            } else {
-                $this->_hasFooman = false;
-            }
-        }
-        return $this->_hasFooman;
-    }
 
     public function isRFQ(){
         if(Mage::app()->getRequest()->getParam('isrfq')){

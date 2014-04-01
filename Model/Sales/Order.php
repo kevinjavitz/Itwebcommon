@@ -2,6 +2,10 @@
 if(Mage::helper('itwebcommon')->hasWarehouse()){
     class ITwebexperts_Itwebcommon_Model_Sales_Order_Component extends Innoexts_Warehouse_Model_Sales_Order{
     }
+}else if(Mage::helper('itwebcommon')->hasAmastyOrderattr()){
+    class ITwebexperts_Itwebcommon_Model_Sales_Order_Component extends Amasty_Orderattr_Model_Sales_Order
+    {
+    }
 }else{
     class ITwebexperts_Itwebcommon_Model_Sales_Order_Component extends Mage_Sales_Model_Order
     {

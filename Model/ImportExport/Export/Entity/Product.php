@@ -86,12 +86,12 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 							// res_prices
 							if ($attrCode == 'res_prices') {
 								$productid = Mage::getModel('catalog/product')->getIdBySku($item->getData('sku'));
-								$coll2 = Mage::getModel('payperrentals/reservationprices')
+								$collectionPrices = Mage::getModel('payperrentals/reservationprices')
 										->getCollection()
-										->addEntityIdFilter($productid)
-										->addRealStoreIdFilter($storeId);
+										->addEntityStoreFilter($productid, $storeId);
+
 								$resprices = array();
-								foreach ($coll2 as $itemcol) {
+								foreach ($collectionPrices as $itemcol) {
 									$periodType = '';
 									switch($itemcol->getPtype()){
 										case ITwebexperts_Payperrentals_Model_Product_Periodtype::MINUTES:
@@ -123,12 +123,12 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 							// res_excluded_dates
 							if ($attrCode == 'res_excluded_dates') {
 								$productid = Mage::getModel('catalog/product')->getIdBySku($item->getData('sku'));
-								$coll2 = Mage::getModel('payperrentals/excludeddates')
+								$collectionExcludedDates = Mage::getModel('payperrentals/excludeddates')
 										->getCollection()
-										->addProductIdFilter($productid)
-										->addRealStoreIdFilter($storeId);
+										->addProductStoreFilter($productid, $storeId);
+
 								$resExcludedDates = array();
-								foreach ($coll2 as $itemcol) {
+								foreach ($collectionExcludedDates as $itemcol) {
 									$_disabledType = '';
 									switch($itemcol->getDisabledType()) {
 										case 'none':
@@ -157,11 +157,11 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 							// res_serialnumbers
 							if ($attrCode == 'res_serialnumbers') {
 								$productid = Mage::getModel('catalog/product')->getIdBySku($item->getData('sku'));
-								$coll2 = Mage::getModel('payperrentals/serialnumbers')
+								$collectionSerials = Mage::getModel('payperrentals/serialnumbers')
 										->getCollection()
 										->addEntityIdFilter($productid);
 								$resSerialnumbers = array();
-								foreach ($coll2 as $itemcol) {
+								foreach ($collectionSerials as $itemcol) {
 									$_status = '';
 									switch($itemcol->getStatus()) {
 										case 'A':
