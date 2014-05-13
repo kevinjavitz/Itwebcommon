@@ -17,26 +17,6 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 
 			return $this;
 		}
-
-
-		protected function _authorizeOnly($isOnline, $amount)
-		{
-
-			// do authorization
-			$order  = $this->getOrder();
-			$exceptionMessage = '';
-			if ($isOnline) {
-				// invoke authorization on gateway
-				$exceptionMessage = $this->getMethodInstance()->setStore($order->getStoreId())->authorizeOnly($this, $amount);
-			}
-
-			return $exceptionMessage;
-		}
-
-		public function authorizeOnly($isOnline, $amount)
-		{
-			return $this->_authorizeOnly($isOnline, $amount);
-		}
 	}
 }else{
 	class ITwebexperts_Itwebcommon_Model_Sales_Order_Payment extends Mage_Sales_Model_Order_Payment

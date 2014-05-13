@@ -16,16 +16,6 @@
 					<import_entity_product_type_simple>ITwebexperts_Itwebcommon_Model_ImportExport_Import_Entity_Product_Type_Simple</import_entity_product_type_simple>
 				</rewrite>
 			</importexport>
-            <paygate>
-                <rewrite>
-                    <authorizenet>ITwebexperts_Itwebcommon_Model_Paygate_Authorizenet</authorizenet>
-                </rewrite>
-            </paygate>
-            <paypal>
-                <rewrite>
-                    <express_checkout>ITwebexperts_Itwebcommon_Model_Paypal_Express_Checkout</express_checkout>
-                </rewrite>
-            </paypal>
             <sales>
                 <rewrite>
                     <order>ITwebexperts_Itwebcommon_Model_Sales_Order</order>
