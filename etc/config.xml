@@ -16,6 +16,13 @@
 					<import_entity_product_type_simple>ITwebexperts_Itwebcommon_Model_ImportExport_Import_Entity_Product_Type_Simple</import_entity_product_type_simple>
 				</rewrite>
 			</importexport>
+            <paypal>
+                <rewrite>
+                    <express_checkout>ITwebexperts_Itwebcommon_Model_Paypal_Express_Checkout</express_checkout>
+                    <express>ITwebexperts_Itwebcommon_Model_Paypal_Express</express>
+                    <cart>ITwebexperts_Itwebcommon_Model_Paypal_Cart</cart>
+                </rewrite>
+            </paypal>
             <sales>
                 <rewrite>
                     <order>ITwebexperts_Itwebcommon_Model_Sales_Order</order>
