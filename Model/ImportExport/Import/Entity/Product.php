@@ -278,13 +278,6 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 
 					foreach ($rowData as $attrCode => $attrValue) {
 
-						// 2013-02-20 Kenneth Roy
-						if ( ($attrCode == 'res_prices') || ($attrCode == 'res_excluded_dates') || ($attrCode == 'res_serialnumbers') ) {
-							if ($attrValue) {
-								$res_params[$rowSku][$attrCode][$rowStore] = $attrValue;
-							}
-						}
-
 						$attribute = $resource->getAttribute($attrCode);
 						if('multiselect' != $attribute->getFrontendInput()
 							&& self::SCOPE_NULL == $rowScope) {
@@ -312,6 +305,12 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 							}
 						}
 						foreach ($storeIds as $storeId) {
+                            // 2013-02-20 Kenneth Roy
+                            if ( ($attrCode == 'res_prices') || ($attrCode == 'res_excluded_dates') || ($attrCode == 'res_serialnumbers') ) {
+                                if ($attrValue) {
+                                    $res_params[$rowSku][$attrCode][$storeId] = $attrValue;
+                                }
+                            }
 							if('multiselect' == $attribute->getFrontendInput()) {
 
 								// 2013-02-20 Kenneth Roy
@@ -351,22 +350,6 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 
 				$productId = $this->_newSku[$sku]['entity_id'];
 
-				// 2013-03-12 Kenneth Roy start
-				$delEntries = Mage::getModel('payperrentals/reservationprices')
-					->getCollection()
-					->addFieldToFilter('entity_id', $productId)
-					->load();
-				foreach($delEntries as $delEntry) {
-					$delEntry->delete();
-				}
-
-				$delEntries = Mage::getModel('payperrentals/excludeddates')
-					->getCollection()
-					->addFieldToFilter('product_id', $productId)
-					->load();
-				foreach($delEntries as $delEntry) {
-					$delEntry->delete();
-				}
 
 				$delEntries = Mage::getModel('payperrentals/serialnumbers')
 					->getCollection()
@@ -379,6 +362,21 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 
 				foreach ($skuData as $attrCode => $attrData) {
 					foreach ($attrData as $storeId => $value) {
+                        $delEntries = Mage::getModel('payperrentals/reservationprices')
+                            ->getCollection()
+                            ->addEntityStoreFilter($productId, $storeId)
+                            ->load();
+                        foreach($delEntries as $delEntry) {
+                            $delEntry->delete();
+                        }
+
+                        $delEntries = Mage::getModel('payperrentals/excludeddates')
+                            ->getCollection()
+                            ->addProductStoreFilter($productId, $storeId)
+                            ->load();
+                        foreach($delEntries as $delEntry) {
+                            $delEntry->delete();
+                        }
 
 						// res_prices
 						if ($attrCode == 'res_prices') {
