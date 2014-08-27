@@ -344,29 +344,54 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 			return $this;
 		}
 
-		// 2013-02-20 Kenneth Roy
-		protected function _saveResParams(array $res_params) {
-			foreach ($res_params as $sku => $skuData) {
+        private function _getPeriodType($value){
+            $periodType = '';
+            switch ($value) {
+                case 'Minute':
+                    $periodType = ITwebexperts_Payperrentals_Model_Product_Periodtype::MINUTES;
+                    break;
+                case 'Hour':
+                    $periodType = ITwebexperts_Payperrentals_Model_Product_Periodtype::HOURS;
+                    break;
+                case 'Day':
+                    $periodType = ITwebexperts_Payperrentals_Model_Product_Periodtype::DAYS;
+                    break;
+                case 'Week':
+                    $periodType = ITwebexperts_Payperrentals_Model_Product_Periodtype::WEEKS;
+                    break;
+                case 'Month':
+                    $periodType = ITwebexperts_Payperrentals_Model_Product_Periodtype::MONTHS;
+                    break;
+                case 'Year':
+                    $periodType = ITwebexperts_Payperrentals_Model_Product_Periodtype::YEARS;
+                    break;
+            }
+            return $periodType;
+        }
+        // 2013-02-20 Kenneth Roy
+        protected function _saveResParams(array $res_params)
+        {
+            foreach ($res_params as $sku => $skuData) {
 
-				$productId = $this->_newSku[$sku]['entity_id'];
+                $productId = $this->_newSku[$sku]['entity_id'];
 
 
-				$delEntries = Mage::getModel('payperrentals/serialnumbers')
-					->getCollection()
-					->addFieldToFilter('entity_id', $productId)
-					->load();
-				foreach($delEntries as $delEntry) {
-					$delEntry->delete();
-				}
-				// 2013-03-12 Kenneth Roy start
+                $delEntries = Mage::getModel('payperrentals/serialnumbers')
+                    ->getCollection()
+                    ->addFieldToFilter('entity_id', $productId)
+                    ->load();
+                foreach ($delEntries as $delEntry) {
+                    $delEntry->delete();
+                }
+                // 2013-03-12 Kenneth Roy start
 
-				foreach ($skuData as $attrCode => $attrData) {
-					foreach ($attrData as $storeId => $value) {
+                foreach ($skuData as $attrCode => $attrData) {
+                    foreach ($attrData as $storeId => $value) {
                         $delEntries = Mage::getModel('payperrentals/reservationprices')
                             ->getCollection()
                             ->addEntityStoreFilter($productId, $storeId)
                             ->load();
-                        foreach($delEntries as $delEntry) {
+                        foreach ($delEntries as $delEntry) {
                             $delEntry->delete();
                         }
 
@@ -374,119 +399,104 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
                             ->getCollection()
                             ->addProductStoreFilter($productId, $storeId)
                             ->load();
-                        foreach($delEntries as $delEntry) {
+                        foreach ($delEntries as $delEntry) {
                             $delEntry->delete();
                         }
 
-						// res_prices
-						if ($attrCode == 'res_prices') {
-							$arrValues = explode(";", $value);
-							foreach ($arrValues as $arrValue) {
-								$insertValue = explode("=", $arrValue);
-								$periodType = '';
-								switch($insertValue[1]) {
-									case 'Minute':
-										$periodType = ITwebexperts_Payperrentals_Model_Product_Periodtype::MINUTES;
-										break;
-									case 'Hour':
-										$periodType = ITwebexperts_Payperrentals_Model_Product_Periodtype::HOURS;
-										break;
-									case 'Day':
-										$periodType = ITwebexperts_Payperrentals_Model_Product_Periodtype::DAYS;
-										break;
-									case 'Week':
-										$periodType = ITwebexperts_Payperrentals_Model_Product_Periodtype::WEEKS;
-										break;
-									case 'Month':
-										$periodType = ITwebexperts_Payperrentals_Model_Product_Periodtype::MONTHS;
-										break;
-									case 'Year':
-										$periodType = ITwebexperts_Payperrentals_Model_Product_Periodtype::YEARS;
-										break;
-								}
-								$resModel = Mage::getModel('payperrentals/reservationprices');
-								$resModel->setEntityId($productId)
-									->setStoreId($storeId)
-									->setNumberof($insertValue[0])
-									->setPtype($periodType)
-									->setDateFrom($insertValue[5])
-									->setDateTo($insertValue[6])
-									->setPrice($insertValue[2])
-									->setQtyStart($insertValue[3])
-									->setQtyEnd($insertValue[4])
-									->setCustomersGroup($insertValue[7])
-									->save();
-							}
-						}
+                        // res_prices
+                        if ($attrCode == 'res_prices') {
+                            $arrValues = explode(";", $value);
+                            foreach ($arrValues as $arrValue) {
+                                $insertValue = explode("=", $arrValue);
 
-						// res_excluded_dates
-						if ($attrCode == 'res_excluded_dates') {
-							$arrValues = explode(";", $value);
-							foreach ($arrValues as $arrValue) {
-								$insertValue = explode("=", $arrValue);
-								$_disabledType = '';
-								switch($insertValue[2]) {
-									case 'None':
-										$_disabledType = 'none';
-										break;
-									case 'Day of Week':
-										$_disabledType = 'dayweek';
-										break;
-									case 'Daily':
-										$_disabledType = 'daily';
-										break;
-									case 'Monthly':
-										$_disabledType = 'monthly';
-										break;
-									case 'Yearly':
-										$_disabledType = 'yearly';
-										break;
-								}
+                                $periodType = $this->_getPeriodType($insertValue[1]);
+                                $periodTypeAdditional = $this->_getPeriodType($insertValue[8]);
+                                $resModel = Mage::getModel('payperrentals/reservationprices');
+                                $resModel->setEntityId($productId)
+                                    ->setStoreId($storeId)
+                                    ->setNumberof($insertValue[0])
+                                    ->setPtype($periodType)
+                                    ->setDateFrom($insertValue[5])
+                                    ->setDateTo($insertValue[6])
+                                    ->setPrice($insertValue[2])
+                                    ->setQtyStart($insertValue[3])
+                                    ->setQtyEnd($insertValue[4])
+                                    ->setPriceadditional($insertValue[7])
+                                    ->setPtypeadditional($periodTypeAdditional)
+                                    ->setCustomersGroup($insertValue[9])
+                                    ->save();
+                            }
+                        }
 
-								$resModel = Mage::getModel('payperrentals/excludeddates');
-								$resModel->setEntityId($productId)
-									->setStoreId($storeId)
-									->setDisabledFrom($insertValue[0])
-									->setDisabledTo($insertValue[1])
-									->setDisabledType($_disabledType)
-									->save();
-							}
-						}
+                        // res_excluded_dates
+                        if ($attrCode == 'res_excluded_dates') {
+                            $arrValues = explode(";", $value);
+                            foreach ($arrValues as $arrValue) {
+                                $insertValue = explode("=", $arrValue);
+                                $_disabledType = '';
+                                switch ($insertValue[2]) {
+                                    case 'None':
+                                        $_disabledType = 'none';
+                                        break;
+                                    case 'Day of Week':
+                                        $_disabledType = 'dayweek';
+                                        break;
+                                    case 'Daily':
+                                        $_disabledType = 'daily';
+                                        break;
+                                    case 'Monthly':
+                                        $_disabledType = 'monthly';
+                                        break;
+                                    case 'Yearly':
+                                        $_disabledType = 'yearly';
+                                        break;
+                                }
 
-						// res_serialnumbers
-						if ($attrCode == 'res_serialnumbers') {
-							$arrValues = explode(";", $value);
-							foreach ($arrValues as $arrValue) {
-								$insertValue = explode("=", $arrValue);
-								$_status = '';
-								switch($insertValue[1]) {
-									case 'Available':
-										$_status = 'A';
-										break;
-									case 'Out':
-										$_status = 'O';
-										break;
-									case 'Broken':
-										$_status = 'B';
-										break;
-									case 'Maintenance':
-										$_status = 'M';
-										break;
-								}
-								$resModel = Mage::getModel('payperrentals/serialnumbers');
-								$resModel->setEntityId($productId)
-									->setSn($insertValue[0])
-									->setStatus($_status)
-									->save();
-							}
-						}
+                                $resModel = Mage::getModel('payperrentals/excludeddates');
+                                $resModel->setEntityId($productId)
+                                    ->setStoreId($storeId)
+                                    ->setDisabledFrom($insertValue[0])
+                                    ->setDisabledTo($insertValue[1])
+                                    ->setDisabledType($_disabledType)
+                                    ->save();
+                            }
+                        }
 
-					}
-				}
-			}
-		}
+                        // res_serialnumbers
+                        if ($attrCode == 'res_serialnumbers') {
+                            $arrValues = explode(";", $value);
+                            foreach ($arrValues as $arrValue) {
+                                $insertValue = explode("=", $arrValue);
+                                $_status = '';
+                                switch ($insertValue[1]) {
+                                    case 'Available':
+                                        $_status = 'A';
+                                        break;
+                                    case 'Out':
+                                        $_status = 'O';
+                                        break;
+                                    case 'Broken':
+                                        $_status = 'B';
+                                        break;
+                                    case 'Maintenance':
+                                        $_status = 'M';
+                                        break;
+                                }
+                                $resModel = Mage::getModel('payperrentals/serialnumbers');
+                                $resModel->setEntityId($productId)
+                                    ->setSn($insertValue[0])
+                                    ->setStatus($_status)
+                                    ->save();
+                            }
+                        }
 
-		// 2013-02-21 Kenneth Roy
+                    }
+                }
+            }
+        }
+
+
+        // 2013-02-21 Kenneth Roy
 		public function isAttributeValid($attrCode, array $attrParams, array $rowData, $rowNum)
 		{
 			switch ($attrParams['type']) {
