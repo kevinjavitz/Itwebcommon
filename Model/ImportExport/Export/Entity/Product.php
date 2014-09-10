@@ -113,7 +113,7 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 											$periodType = 'Year';
 											break;
 									}
-									$resprices[] = $itemcol->getNumberof().'='.$periodType.'='.$itemcol->getPrice().'='.$itemcol->getQtyStart().'='.$itemcol->getQtyEnd().'='.$itemcol->getDateFrom().'='.$itemcol->getDateTo().'='.$itemcol->getCustomersGroup();
+									$resprices[] = $itemcol->getNumberof().'='.$periodType.'='.$itemcol->getPrice().'='.$itemcol->getQtyStart().'='.$itemcol->getQtyEnd().'='.$itemcol->getDateFrom().'='.$itemcol->getDateTo().'='.$itemcol->getPriceadditional().'='.$itemcol->getPtypeadditional().'='.$itemcol->getCustomersGroup();
 								}
 								if(count($resprices) > 0){
 									$attrValue = implode(';',$resprices);
