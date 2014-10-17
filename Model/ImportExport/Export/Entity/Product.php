@@ -126,6 +126,10 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 								}
 							}
 
+							if ($attrCode == 'inventory_serialized') {
+								$attrValue = '';
+							}
+
 							// res_excluded_dates
 							if ($attrCode == 'res_excluded_dates') {
 								$productid = Mage::getModel('catalog/product')->getIdBySku($item->getData('sku'));
