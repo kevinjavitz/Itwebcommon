@@ -2,6 +2,31 @@
 if(Mage::helper('itwebcommon')->hasPayperrentals()){
 	class ITwebexperts_Itwebcommon_Model_ImportExport_Export_Entity_Product extends Mage_ImportExport_Model_Export_Entity_Product
 	{
+		private function _getPType($pType){
+			$periodType = '';
+			switch($pType){
+				case ITwebexperts_Payperrentals_Model_Product_Periodtype::MINUTES:
+					$periodType = 'Minute';
+					break;
+				case ITwebexperts_Payperrentals_Model_Product_Periodtype::HOURS:
+					$periodType = 'Hour';
+					break;
+				case ITwebexperts_Payperrentals_Model_Product_Periodtype::DAYS:
+					$periodType = 'Day';
+					break;
+				case ITwebexperts_Payperrentals_Model_Product_Periodtype::WEEKS:
+					$periodType = 'Week';
+					break;
+				case ITwebexperts_Payperrentals_Model_Product_Periodtype::MONTHS:
+					$periodType = 'Month';
+					break;
+				case ITwebexperts_Payperrentals_Model_Product_Periodtype::YEARS:
+					$periodType = 'Year';
+					break;
+			}
+			return $periodType;
+		}
+
 		public function export()
 		{
 			//Execution time may be very long
@@ -92,28 +117,9 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 
 								$resprices = array();
 								foreach ($collectionPrices as $itemcol) {
-									$periodType = '';
-									switch($itemcol->getPtype()){
-										case ITwebexperts_Payperrentals_Model_Product_Periodtype::MINUTES:
-											$periodType = 'Minute';
-											break;
-										case ITwebexperts_Payperrentals_Model_Product_Periodtype::HOURS:
-											$periodType = 'Hour';
-											break;
-										case ITwebexperts_Payperrentals_Model_Product_Periodtype::DAYS:
-											$periodType = 'Day';
-											break;
-										case ITwebexperts_Payperrentals_Model_Product_Periodtype::WEEKS:
-											$periodType = 'Week';
-											break;
-										case ITwebexperts_Payperrentals_Model_Product_Periodtype::MONTHS:
-											$periodType = 'Month';
-											break;
-										case ITwebexperts_Payperrentals_Model_Product_Periodtype::YEARS:
-											$periodType = 'Year';
-											break;
-									}
-									$resprices[] = $itemcol->getNumberof().'='.$periodType.'='.$itemcol->getPrice().'='.$itemcol->getQtyStart().'='.$itemcol->getQtyEnd().'='.$itemcol->getDateFrom().'='.$itemcol->getDateTo().'='.$itemcol->getPriceadditional().'='.$itemcol->getPtypeadditional().'='.$itemcol->getCustomersGroup();
+									$periodType = $this->_getPType($itemcol->getPtype());
+									$periodTypeAdditional = $this->_getPType($itemcol->getPtypeadditional());
+									$resprices[] = $itemcol->getNumberof().'='.$periodType.'='.$itemcol->getPrice().'='.$itemcol->getQtyStart().'='.$itemcol->getQtyEnd().'='.$itemcol->getDateFrom().'='.$itemcol->getDateTo().'='.$itemcol->getPriceadditional().'='.$periodTypeAdditional.'='.$itemcol->getCustomersGroup();
 								}
 								if(count($resprices) > 0){
 									$attrValue = implode(';',$resprices);
