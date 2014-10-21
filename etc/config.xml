@@ -5,6 +5,28 @@
 			<version>0.1.0</version>
 		</ITwebexperts_Itwebcommon>
 	</modules>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <ITwebexperts_Itwebcommon before="Mage_Adminhtml">ITwebexperts_Itwebcommon_Adminhtml</ITwebexperts_Itwebcommon>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <frontend>
+        <routers>
+            <itwebecommon_front>
+                <use>standard</use>
+                <args>
+                    <module>ITwebexperts_Itwebcommon</module>
+                    <frontName>itwebcommon</frontName>
+                </args>
+            </itwebecommon_front>
+        </routers>
+    </frontend>
 	<global>
 		<models>
 			<importexport>
@@ -29,8 +51,15 @@
                     <order_payment>ITwebexperts_Itwebcommon_Model_Sales_Order_Payment</order_payment>
                 </rewrite>
             </sales>
-		</models>
+
+                <itwebcommon>
+                    <class>ITwebexperts_Itwebcommon_Model</class>
+                </itwebcommon>
+        </models>
         <blocks>
+            <itwebcommon>
+                <class>ITwebexperts_Itwebcommon_Block</class>
+            </itwebcommon>
             <sales>
                 <rewrite>
                     <!--<adminhtml_recurring_profile>ITwebexperts_Itwebcommon_Block_Adminhtml_Sales_Recurring_Profile</adminhtml_recurring_profile>-->
@@ -43,5 +72,19 @@
                 <class>ITwebexperts_Itwebcommon_Helper</class>
             </itwebcommon>
         </helpers>
+
     </global>
+    <adminhtml>
+        <events>
+            <controller_action_predispatch>
+                <observers>
+                    <itwebecommon_notification>
+                        <type>singleton</type>
+                        <class>itwebcommon/feed</class>
+                        <method>observe</method>
+                    </itwebecommon_notification>
+                </observers>
+            </controller_action_predispatch>
+        </events>
+    </adminhtml>
 </config>
