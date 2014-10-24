@@ -74,7 +74,7 @@
         </helpers>
 
     </global>
-    <adminhtml>
+    <!--<adminhtml>
         <events>
             <controller_action_predispatch>
                 <observers>
@@ -86,5 +86,5 @@
                 </observers>
             </controller_action_predispatch>
         </events>
-    </adminhtml>
+    </adminhtml>-->
 </config>
