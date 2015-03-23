@@ -446,7 +446,7 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 							$dataRow[self::COL_TYPE]     = null;
 						} else {
 							$dataRow[self::COL_STORE] = null;
-							$dataRow += $stockItemRows[$productId];
+							$dataRow = array_merge($dataRow, $stockItemRows[$productId]);
 						}
 						if (count($rowCategories[$productId])) {
 							$this->_updateDataWithCategoryColumns($dataRow, $rowCategories, $productId);
