@@ -34,7 +34,7 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()) {
          * @param string $cancelUrl
          * @return mixed
          */
-        public function start($returnUrl, $cancelUrl)
+        public function start($returnUrl, $cancelUrl, $button = null)
         {
             $this->_quote->collectTotals();
 
@@ -45,6 +45,8 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()) {
             $this->_quote->reserveOrderId()->save();
             // prepare API
             $this->_getApi();
+            $solutionType = $this->_config->getMerchantCountry() == 'DE'
+                ? Mage_Paypal_Model_Config::EC_SOLUTION_TYPE_MARK : $this->_config->solutionType;
             $amount = $this->_quote->getBaseGrandTotal();
             if ($this->_quote->getDepositpprAmount()) {
                 $amount += $this->_quote->getDepositpprAmount();
@@ -54,16 +56,20 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()) {
                 ->setInvNum($this->_quote->getReservedOrderId())
                 ->setReturnUrl($returnUrl)
                 ->setCancelUrl($cancelUrl)
-                ->setSolutionType($this->_config->solutionType)
-                ->setPaymentAction($this->_config->paymentAction)
-            ;
+                ->setSolutionType($solutionType)
+                ->setPaymentAction($this->_config->paymentAction);
+
             if ($this->_giropayUrls) {
                 list($successUrl, $cancelUrl, $pendingUrl) = $this->_giropayUrls;
                 $this->_api->addData(array(
-                        'giropay_cancel_url' => $cancelUrl,
-                        'giropay_success_url' => $successUrl,
-                        'giropay_bank_txn_pending_url' => $pendingUrl,
-                    ));
+                    'giropay_cancel_url' => $cancelUrl,
+                    'giropay_success_url' => $successUrl,
+                    'giropay_bank_txn_pending_url' => $pendingUrl,
+                ));
+            }
+
+            if ($this->_isBml) {
+                $this->_api->setFundingSource('BML');
             }
 
             $this->_setBillingAgreementRequest();
@@ -94,8 +100,7 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()) {
             // add line items
             $paypalCart = Mage::getModel('paypal/cart', array($this->_quote));
             $this->_api->setPaypalCart($paypalCart)
-                ->setIsLineItemsEnabled($this->_config->lineItemsEnabled)
-            ;
+                ->setIsLineItemsEnabled($this->_config->lineItemsEnabled);
 
             // add shipping options if needed and line items are available
             if ($this->_config->lineItemsEnabled && $this->_config->transferShippingOptions && $paypalCart->getItems()) {
@@ -124,9 +129,18 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()) {
             // call API and redirect with token
             $this->_api->callSetExpressCheckout();
             $token = $this->_api->getToken();
-            $this->_redirectUrl = $this->_config->getExpressCheckoutStartUrl($token);
+            $this->_redirectUrl = $button ? $this->_config->getExpressCheckoutStartUrl($token)
+                : $this->_config->getPayPalBasicStartUrl($token);
 
             $this->_quote->getPayment()->unsAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
+
+            // Set flag that we came from Express Checkout button
+            if (!empty($button)) {
+                $this->_quote->getPayment()->setAdditionalInformation(self::PAYMENT_INFO_BUTTON, 1);
+            } elseif ($this->_quote->getPayment()->hasAdditionalInformation(self::PAYMENT_INFO_BUTTON)) {
+                $this->_quote->getPayment()->unsAdditionalInformation(self::PAYMENT_INFO_BUTTON);
+            }
+
             $this->_quote->getPayment()->save();
             return $token;
         }

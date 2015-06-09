@@ -32,7 +32,7 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()) {
          */
         protected function _validate()
         {
-            $this->_areItemsValid = false;
+            $this->_areItemsValid = true;
             $this->_areTotalsValid = false;
 
             $referenceAmount = $this->_salesEntity->getBaseGrandTotal();
@@ -57,8 +57,9 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()) {
              * see http://php.net/float
              */
             // match sum of all the items and totals to the reference amount
-            if (sprintf('%.4F', $sum) == sprintf('%.4F', $referenceAmount)) {
-                $this->_areItemsValid = true;
+        if (sprintf('%.4F', $sum) != sprintf('%.4F', $referenceAmount)) {
+            $adjustment = $sum - $referenceAmount;
+            $this->_totals[self::TOTAL_SUBTOTAL] = $this->_totals[self::TOTAL_SUBTOTAL] - $adjustment;
             }
 
             // PayPal requires to have discount less than items subtotal
@@ -67,6 +68,7 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()) {
             } else {
                 $this->_areTotalsValid = $itemsSubtotal > 0.00001;
             }
+
             $this->_areItemsValid = $this->_areItemsValid && $this->_areTotalsValid;
         }
 
