@@ -7,6 +7,15 @@ class ITwebexperts_Itwebcommon_Helper_Data extends Mage_Core_Helper_Abstract
 {
     protected $_hasFooman;
     protected $_hasWarehouse;
+    protected $_isVendorInstalled;
+
+    public function isVendorInstalled()
+    {
+        if (is_null($this->_isVendorInstalled)) {
+            $this->_isVendorInstalled = Mage::helper('core')->isModuleEnabled('VES_Vendors');
+        }
+        return $this->_isVendorInstalled;
+    }
 
     /**
      * Checks if warehouse extension is installed
