@@ -70,4 +70,9 @@ class ITwebexperts_Itwebcommon_Helper_Data extends Mage_Core_Helper_Abstract
         } else {return false;}
     }
 
+    public function getPayperrentalsPath()
+    {
+        return BP . DS . 'app' . DS . 'code' . DS . 'community'. DS . 'ITwebexperts' . DS . 'Payperrentals';
+    }
+
 }
