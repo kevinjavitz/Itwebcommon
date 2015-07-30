@@ -64,4 +64,10 @@ class ITwebexperts_Itwebcommon_Helper_Data extends Mage_Core_Helper_Abstract
         return false;
     }
 
+    public function isVendorAdmin(){
+        if(Mage::getSingleton('vendors/session') && Mage::getSingleton('vendors/session')->getId()){
+            return true;
+        } else {return false;}
+    }
+
 }
