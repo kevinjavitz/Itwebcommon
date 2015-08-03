@@ -8,6 +8,7 @@ class ITwebexperts_Itwebcommon_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_hasFooman;
     protected $_hasWarehouse;
     protected $_isVendorInstalled;
+    protected $_vendorAdmin;
 
     public function isVendorInstalled()
     {
@@ -64,9 +65,13 @@ class ITwebexperts_Itwebcommon_Helper_Data extends Mage_Core_Helper_Abstract
         return false;
     }
 
+
     public function isVendorAdmin(){
-        if(Mage::getSingleton('vendors/session') && Mage::getSingleton('vendors/session')->getId()){
-            return true;
+        if(is_null($this->_vendorAdmin)) {
+            $this->_vendorAdmin = Mage::getSingleton('vendors/session');
+        }
+        if($this->_vendorAdmin){
+        return true;
         } else {return false;}
     }
 
