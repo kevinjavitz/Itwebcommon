@@ -67,11 +67,15 @@ class ITwebexperts_Itwebcommon_Helper_Data extends Mage_Core_Helper_Abstract
 
 
     public function isVendorAdmin(){
-        if(is_null($this->_vendorAdmin)) {
-            $this->_vendorAdmin = Mage::getSingleton('vendors/session');
-        }
-        if($this->_vendorAdmin->getId()){
-        return true;
+        if($this->isVendorInstalled()) {
+            if (is_null($this->_vendorAdmin)) {
+                $this->_vendorAdmin = Mage::getSingleton('vendors/session');
+            }
+            if ($this->_vendorAdmin->getId()) {
+                return true;
+            } else {
+                return false;
+            }
         } else {return false;}
     }
 
