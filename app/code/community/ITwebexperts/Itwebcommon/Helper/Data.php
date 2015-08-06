@@ -70,9 +70,11 @@ class ITwebexperts_Itwebcommon_Helper_Data extends Mage_Core_Helper_Abstract
         if(is_null($this->_vendorAdmin)) {
             $this->_vendorAdmin = Mage::getSingleton('vendors/session');
         }
-        if($this->_vendorAdmin->getId()){
-        return true;
-        } else {return false;}
+        if($this->_vendorAdmin && $this->_vendorAdmin->getId()){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function getPayperrentalsPath()
