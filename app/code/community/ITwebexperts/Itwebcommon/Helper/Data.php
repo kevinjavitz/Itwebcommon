@@ -73,15 +73,35 @@ class ITwebexperts_Itwebcommon_Helper_Data extends Mage_Core_Helper_Abstract
             }
             if ($this->_vendorAdmin->getId()) {
                 return true;
-            } else {
-                return false;
             }
-        } else {return false;}
+        }
+        return false;
     }
 
     public function getPayperrentalsPath()
     {
         return BP . DS . 'app' . DS . 'code' . DS . 'community'. DS . 'ITwebexperts' . DS . 'Payperrentals';
+    }
+
+    /**
+     * Gving an attribute code returns the value for the product
+     * @param      $id
+     * @param      $attributeCode
+     * @param null $storeID
+     *
+     * @return array|bool|string
+     */
+
+    public function getAttributeCodeForId($id, $attributeCode, $storeID = null)
+    {
+        if (is_null($storeID)) {
+            if (Mage::app()->getStore()->isAdmin()) {
+                $storeID = Mage::getSingleton('adminhtml/session_quote')->getStoreId();
+            } else {
+                $storeID = Mage::app()->getStore()->getId();
+            }
+        }
+        return Mage::getResourceModel('catalog/product')->getAttributeRawValue($id, $attributeCode, $storeID);
     }
 
 }
