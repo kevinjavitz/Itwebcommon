@@ -104,4 +104,11 @@ class ITwebexperts_Itwebcommon_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getResourceModel('catalog/product')->getAttributeRawValue($id, $attributeCode, $storeID);
     }
 
+    public function fileExists($fullpath){
+        if(file_exists($fullpath)){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
