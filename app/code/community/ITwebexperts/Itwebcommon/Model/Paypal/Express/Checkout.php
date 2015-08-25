@@ -28,6 +28,21 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()) {
     class ITwebexperts_Itwebcommon_Model_Paypal_Express_Checkout extends Mage_Paypal_Model_Express_Checkout
     {
         /**
+         * Flag which says that was used PayPal Express Checkout button for checkout
+         * Uses additional_information as storage
+         * @var string
+         */
+        const PAYMENT_INFO_BUTTON = 'button';
+        private function getPayPalBasicStartUrl($token){
+            $params = array(
+                'cmd'   => '_express-checkout',
+                'token' => $token,
+            );
+
+
+            return $this->_config->getPaypalUrl($params);
+        }
+        /**
          * Reserve order ID for specified quote and start checkout on PayPal
          *
          * @param string $returnUrl
@@ -130,7 +145,7 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()) {
             $this->_api->callSetExpressCheckout();
             $token = $this->_api->getToken();
             $this->_redirectUrl = $button ? $this->_config->getExpressCheckoutStartUrl($token)
-                : $this->_config->getPayPalBasicStartUrl($token);
+                : $this->getPayPalBasicStartUrl($token);
 
             $this->_quote->getPayment()->unsAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
 
