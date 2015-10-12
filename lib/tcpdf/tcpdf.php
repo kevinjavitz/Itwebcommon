@@ -16913,7 +16913,11 @@ class TCPDF {
 						} else {
 							$dom[$key]['thead'] = false;
 							// store the number of rows on table element
-							++$dom[($dom[$key]['parent'])]['rows'];
+							if(isset($dom[($dom[$key]['parent'])]['rows'])) {
+								++$dom[($dom[$key]['parent'])]['rows'];
+							}else{
+								$dom[($dom[$key]['parent'])]['rows'] = 1;
+							}
 							// store the TR elements IDs on table element
 							array_push($dom[($dom[$key]['parent'])]['trids'], $key);
 						}
