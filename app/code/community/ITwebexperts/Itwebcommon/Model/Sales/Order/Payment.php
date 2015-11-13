@@ -21,7 +21,7 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
         {
             $amountToCapture = $this->_formatAmount($amountToCapture, true);
             $orderGrandTotal = $this->_formatAmount($this->getOrder()->getBaseGrandTotal(), true);
-            if ($this->getOrder()->getDepositpprAmount()) {
+            if ($this->getOrder()->getDepositpprAmount() && !Mage::helper('payperrentals/config')->isChargedDeposit()) {
                 $orderGrandTotal += $this->_formatAmount($this->getOrder()->getDepositpprAmount(), true);
             }
             if ($orderGrandTotal == $this->_formatAmount($this->getBaseAmountPaid(), true) + $amountToCapture) {

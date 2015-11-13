@@ -63,7 +63,7 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()) {
             $solutionType = $this->_config->getMerchantCountry() == 'DE'
                 ? Mage_Paypal_Model_Config::EC_SOLUTION_TYPE_MARK : $this->_config->solutionType;
             $amount = $this->_quote->getBaseGrandTotal();
-            if ($this->_quote->getDepositpprAmount()) {
+            if ($this->_quote->getDepositpprAmount() && !Mage::helper('payperrentals/config')->isChargedDeposit()) {
                 $amount += $this->_quote->getDepositpprAmount();
             }
             $this->_api->setAmount($amount)

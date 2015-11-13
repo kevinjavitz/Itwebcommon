@@ -23,10 +23,19 @@
  * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+if(class_exists('IWD_Opc_Model_Paypal_Express')){
+    class ITwebexperts_Itwebcommon_Model_Paypal_Express_Component extends IWD_Opc_Model_Paypal_Express{
 
+    }
+}else{
+    class ITwebexperts_Itwebcommon_Model_Paypal_Express_Component extends Mage_Paypal_Model_Express{
+
+    }
+}
 if(Mage::helper('itwebcommon')->hasPayperrentals()) {
-    class ITwebexperts_Itwebcommon_Model_Paypal_Express extends Mage_Paypal_Model_Express
+    class ITwebexperts_Itwebcommon_Model_Paypal_Express extends ITwebexperts_Itwebcommon_Model_Paypal_Express_Component
     {
+
         /**
          * Place an order with authorization or capture action
          *
@@ -37,7 +46,7 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()) {
         protected function _placeOrder(Mage_Sales_Model_Order_Payment $payment, $amount)
         {
             $order = $payment->getOrder();
-            if ($order->getDepositpprAmount()) {
+            if ($order->getDepositpprAmount() && !Mage::helper('payperrentals/config')->isChargedDeposit()) {
                 $amount += $order->getDepositpprAmount();
             }
             // prepare api call
@@ -70,7 +79,7 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()) {
 
     }
 }else{
-    class ITwebexperts_Itwebcommon_Model_Paypal_Express extends Mage_Paypal_Model_Express
+    class ITwebexperts_Itwebcommon_Model_Paypal_Express extends ITwebexperts_Itwebcommon_Model_Paypal_Express_Component
     {
     }
 }

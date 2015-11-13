@@ -37,7 +37,7 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()) {
 
             $referenceAmount = $this->_salesEntity->getBaseGrandTotal();
 
-            if ($this->_salesEntity->getDepositpprAmount()) {
+            if ($this->_salesEntity->getDepositpprAmount() && !Mage::helper('payperrentals/config')->isChargedDeposit()) {
                 $referenceAmount += $this->_salesEntity->getDepositpprAmount();
             }
 
