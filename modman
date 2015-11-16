@@ -1,3 +1,3 @@
 app/code/community/ITwebexperts/Itwebcommon app/code/community/ITwebexperts/Itwebcommon
-app/etc/modules/ITwebexperts_Itwebcommon.xml app/etc/modules/ITwebexperts_Itwebcommon.xml
+app/etc/modules/ZITwebexperts_Itwebcommon.xml app/etc/modules/ZITwebexperts_Itwebcommon.xml
 lib/tcpdf/ lib/tcpdf/
