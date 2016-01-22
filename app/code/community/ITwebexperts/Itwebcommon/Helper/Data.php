@@ -54,6 +54,15 @@ class ITwebexperts_Itwebcommon_Helper_Data extends Mage_Core_Helper_Abstract
 		return Mage::helper('core')->isModuleEnabled('ITwebexperts_Payperrentals');
 	}
 
+    /**
+     * Checks if payperrentals is installed
+     * @return bool
+     */
+    public function hasIWD()
+    {
+        return Mage::helper('core')->isModuleEnabled('IWD_Opc');
+    }
+
     public function isRFQ(){
         if(Mage::app()->getRequest()->getParam('isrfq')){
             return true;
