@@ -1741,7 +1741,7 @@ class TCPDF {
 		'writing-mode' => 'lr-tb',
 		'text-color' => 'black',
 		'transfmatrix' => array(1, 0, 0, 1, 0, 0)
-		));
+	));
 
 	/**
 	 * If true force sRGB color profile for all document.
@@ -1822,9 +1822,9 @@ class TCPDF {
 	/**
 	 * This is the class constructor.
 	 * It allows to set up the page format, the orientation and the measure unit used in all the methods (except for the font sizes).
-	 * 
+	 *
 	 * IMPORTANT: Please note that this method sets the mb_internal_encoding to ASCII, so if you are using the mbstring module functions with TCPDF you need to correctly set/unset the mb_internal_encoding when needed.
-	 * 
+	 *
 	 * @param $orientation (string) page orientation. Possible values are (case insensitive):<ul><li>P or Portrait (default)</li><li>L or Landscape</li><li>'' (empty string) for automatic orientation</li></ul>
 	 * @param $unit (string) User measure unit. Possible values are:<ul><li>pt: point</li><li>mm: millimeter (default)</li><li>cm: centimeter</li><li>in: inch</li></ul><br />A point equals 1/72 of inch, that is to say about 0.35 mm (an inch being 2.54 cm). This is a very common unit in typography; font sizes are expressed in that unit.
 	 * @param $format (mixed) The format used for pages. It can be either: one of the string values specified at getPageSizeFromFormat() or an array of parameters specified at setPageFormat().
@@ -4691,7 +4691,7 @@ class TCPDF {
 	 * Defines the page and position a link points to.
 	 * @param $link (int) The link identifier returned by AddLink()
 	 * @param $y (float) Ordinate of target position; -1 indicates the current position. The default value is 0 (top of page)
-	 * @param $page (int) Number of target page; -1 indicates the current page (default value). If you prefix a page number with the * character, then this page will not be changed when adding/deleting/moving pages. 
+	 * @param $page (int) Number of target page; -1 indicates the current page (default value). If you prefix a page number with the * character, then this page will not be changed when adding/deleting/moving pages.
 	 * @public
 	 * @since 1.5
 	 * @see AddLink()
@@ -6154,15 +6154,15 @@ class TCPDF {
 			$c = $chars[$i];
 			$charWidth = $charsWidth[$i];
 			if (($c != 160)
-					AND (($c == 173)
-						OR preg_match($this->re_spaces, TCPDF_FONTS::unichr($c, $this->isunicode))
-						OR (($c == 45)
-							AND ($i > 0) AND ($i < ($length - 1))
-							AND @preg_match('/[\p{L}]/'.$this->re_space['m'], TCPDF_FONTS::unichr($chars[($i - 1)], $this->isunicode))
-							AND @preg_match('/[\p{L}]/'.$this->re_space['m'], TCPDF_FONTS::unichr($chars[($i + 1)], $this->isunicode))
-						)
+				AND (($c == 173)
+					OR preg_match($this->re_spaces, TCPDF_FONTS::unichr($c, $this->isunicode))
+					OR (($c == 45)
+						AND ($i > 0) AND ($i < ($length - 1))
+						AND @preg_match('/[\p{L}]/'.$this->re_space['m'], TCPDF_FONTS::unichr($chars[($i - 1)], $this->isunicode))
+						AND @preg_match('/[\p{L}]/'.$this->re_space['m'], TCPDF_FONTS::unichr($chars[($i + 1)], $this->isunicode))
 					)
-				) {
+				)
+			) {
 				$lastSeparator = $i;
 			}
 			if ((($sum + $charWidth) > $wmax) OR ($c == 10)) {
@@ -9798,7 +9798,7 @@ class TCPDF {
 			//$out .= ' /XFA ';
 			$out .= ' >>';
 			// signatures
-			if ($this->sign AND isset($this->signature_data['cert_type']) 
+			if ($this->sign AND isset($this->signature_data['cert_type'])
 				AND (empty($this->signature_data['approval']) OR ($this->signature_data['approval'] != 'A'))) {
 				if ($this->signature_data['cert_type'] > 0) {
 					$out .= ' /Perms << /DocMDP '.($this->sig_obj_id + 1).' 0 R >>';
@@ -13358,20 +13358,20 @@ class TCPDF {
 	 * @param $form (string) Names specifying additional form-field-related usage rights for the document. Valid names are: /Add/Delete/FillIn/Import/Export/SubmitStandalone/SpawnTemplate
 	 * @param $signature (string) Names specifying additional signature-related usage rights for the document. The only defined value is /Modify, which permits a user to apply a digital signature to an existing signature form field or clear a signed signature form field.
 	 * @param $ef (string) Names specifying additional usage rights for named embedded files in the document. Valid names are /Create/Delete/Modify/Import, which permit the user to perform the named operation on named embedded files
-	 Names specifying additional embedded-files-related usage rights for the document.
+	Names specifying additional embedded-files-related usage rights for the document.
 	 * @param $formex (string) Names specifying additional form-field-related usage rights. The only valid name is BarcodePlaintext, which permits text form field data to be encoded as a plaintext two-dimensional barcode.
 	 * @public
 	 * @author Nicola Asuni
 	 * @since 2.9.000 (2008-03-26)
 	 */
 	public function setUserRights(
-			$enable=true,
-			$document='/FullSave',
-			$annots='/Create/Delete/Modify/Copy/Import/Export',
-			$form='/Add/Delete/FillIn/Import/Export/SubmitStandalone/SpawnTemplate',
-			$signature='/Modify',
-			$ef='/Create/Delete/Modify/Import',
-			$formex='') {
+		$enable=true,
+		$document='/FullSave',
+		$annots='/Create/Delete/Modify/Copy/Import/Export',
+		$form='/Add/Delete/FillIn/Import/Export/SubmitStandalone/SpawnTemplate',
+		$signature='/Modify',
+		$ef='/Create/Delete/Modify/Import',
+		$formex='') {
 		$this->ur['enabled'] = $enable;
 		$this->ur['document'] = $document;
 		$this->ur['annots'] = $annots;
@@ -13689,17 +13689,17 @@ class TCPDF {
 			return;
 		}
 		foreach ($this->pdflayers as $key => $layer) {
-			 $this->pdflayers[$key]['objid'] = $this->_newobj();
-			 $out = '<< /Type /OCG';
-			 $out .= ' /Name '.$this->_textstring($layer['name'], $this->pdflayers[$key]['objid']);
-			 $out .= ' /Usage <<';
-			 if (isset($layer['print']) AND ($layer['print'] !== NULL)) {
+			$this->pdflayers[$key]['objid'] = $this->_newobj();
+			$out = '<< /Type /OCG';
+			$out .= ' /Name '.$this->_textstring($layer['name'], $this->pdflayers[$key]['objid']);
+			$out .= ' /Usage <<';
+			if (isset($layer['print']) AND ($layer['print'] !== NULL)) {
 				$out .= ' /Print <</PrintState /'.($layer['print']?'ON':'OFF').'>>';
-			 }
-			 $out .= ' /View <</ViewState /'.($layer['view']?'ON':'OFF').'>>';
-			 $out .= ' >> >>';
-			 $out .= "\n".'endobj';
-			 $this->_out($out);
+			}
+			$out .= ' /View <</ViewState /'.($layer['view']?'ON':'OFF').'>>';
+			$out .= ' >> >>';
+			$out .= "\n".'endobj';
+			$this->_out($out);
 		}
 	}
 
@@ -14432,7 +14432,7 @@ class TCPDF {
 	 */
 	protected function Clip($x, $y, $w, $h) {
 		if ($this->state != 2) {
-			 return;
+			return;
 		}
 		if ($this->rtl) {
 			$x = $this->w - $x - $w;
@@ -14779,7 +14779,7 @@ class TCPDF {
 	 */
 	public function PieSectorXY($xc, $yc, $rx, $ry, $a, $b, $style='FD', $cw=false, $o=0, $nc=2) {
 		if ($this->state != 2) {
-			 return;
+			return;
 		}
 		if ($this->rtl) {
 			$xc = ($this->w - $xc);
@@ -14823,7 +14823,7 @@ class TCPDF {
 	 */
 	public function ImageEps($file, $x='', $y='', $w=0, $h=0, $link='', $useBoundingBox=true, $align='', $palign='', $border=0, $fitonpage=false, $fixoutvals=false) {
 		if ($this->state != 2) {
-			 return;
+			return;
 		}
 		if ($this->rasterize_vector_images AND ($w > 0) AND ($h > 0)) {
 			// convert EPS to raster image using GD or ImageMagick libraries
@@ -15716,17 +15716,17 @@ class TCPDF {
 	/**
 	 * Returns an array containing current margins:
 	 * <ul>
-			<li>$ret['left'] = left margin</li>
-			<li>$ret['right'] = right margin</li>
-			<li>$ret['top'] = top margin</li>
-			<li>$ret['bottom'] = bottom margin</li>
-			<li>$ret['header'] = header margin</li>
-			<li>$ret['footer'] = footer margin</li>
-			<li>$ret['cell'] = cell padding array</li>
-			<li>$ret['padding_left'] = cell left padding</li>
-			<li>$ret['padding_top'] = cell top padding</li>
-			<li>$ret['padding_right'] = cell right padding</li>
-			<li>$ret['padding_bottom'] = cell bottom padding</li>
+	<li>$ret['left'] = left margin</li>
+	<li>$ret['right'] = right margin</li>
+	<li>$ret['top'] = top margin</li>
+	<li>$ret['bottom'] = bottom margin</li>
+	<li>$ret['header'] = header margin</li>
+	<li>$ret['footer'] = footer margin</li>
+	<li>$ret['cell'] = cell padding array</li>
+	<li>$ret['padding_left'] = cell left padding</li>
+	<li>$ret['padding_top'] = cell top padding</li>
+	<li>$ret['padding_right'] = cell right padding</li>
+	<li>$ret['padding_bottom'] = cell bottom padding</li>
 	 * </ul>
 	 * @return array containing all margins measures
 	 * @public
@@ -15752,8 +15752,8 @@ class TCPDF {
 	/**
 	 * Returns an array containing original margins:
 	 * <ul>
-			<li>$ret['left'] = left margin</li>
-			<li>$ret['right'] = right margin</li>
+	<li>$ret['left'] = left margin</li>
+	<li>$ret['right'] = right margin</li>
 	 * </ul>
 	 * @return array containing all margins measures
 	 * @public
@@ -16919,7 +16919,9 @@ class TCPDF {
 								$dom[($dom[$key]['parent'])]['rows'] = 1;
 							}
 							// store the TR elements IDs on table element
-							array_push($dom[($dom[$key]['parent'])]['trids'], $key);
+							if(isset($dom[($dom[$key]['parent'])]['trids']) && is_array($dom[($dom[$key]['parent'])]['trids'])) {
+								array_push($dom[($dom[$key]['parent'])]['trids'], $key);
+							}
 						}
 					}
 					if (($dom[$key]['value'] == 'th') OR ($dom[$key]['value'] == 'td')) {
@@ -17086,7 +17088,7 @@ class TCPDF {
 	 * @param $html (string) html text to print. Default value: empty string.
 	 * @param $border (mixed) Indicates if borders must be drawn around the cell. The value can be a number:<ul><li>0: no border (default)</li><li>1: frame</li></ul> or a string containing some or all of the following characters (in any order):<ul><li>L: left</li><li>T: top</li><li>R: right</li><li>B: bottom</li></ul> or an array of line styles for each border group - for example: array('LTRB' => array('width' => 2, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 0)))
 	 * @param $ln (int) Indicates where the current position should go after the call. Possible values are:<ul><li>0: to the right (or left for RTL language)</li><li>1: to the beginning of the next line</li><li>2: below</li></ul>
-Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value: 0.
+	Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value: 0.
 	 * @param $fill (boolean) Indicates if the cell background must be painted (true) or transparent (false).
 	 * @param $reseth (boolean) if true reset the last cell height (default true).
 	 * @param $align (string) Allows to center or align the text. Possible values are:<ul><li>L : left align</li><li>C : center</li><li>R : right align</li><li>'' : empty string : left for LTR or right for RTL</li></ul>
@@ -17331,8 +17333,8 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 				}
 				// move $key index forward to skip THEAD block
 				while ( ($key < $maxel) AND (!(
-					($dom[$key]['tag'] AND $dom[$key]['opening'] AND ($dom[$key]['value'] == 'tr') AND (!isset($dom[$key]['thead']) OR !$dom[$key]['thead']))
-					OR ($dom[$key]['tag'] AND (!$dom[$key]['opening']) AND ($dom[$key]['value'] == 'table'))) )) {
+						($dom[$key]['tag'] AND $dom[$key]['opening'] AND ($dom[$key]['value'] == 'tr') AND (!isset($dom[$key]['thead']) OR !$dom[$key]['thead']))
+						OR ($dom[$key]['tag'] AND (!$dom[$key]['opening']) AND ($dom[$key]['value'] == 'table'))) )) {
 					++$key;
 				}
 			}
@@ -17349,7 +17351,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 						$imgw = $this->getHTMLUnitToUnits($dom[$key]['width'], ($dom[$key]['fontsize'] / $this->k), 'px', false);
 						if (($imgw <= ($this->w - $this->lMargin - $this->rMargin - $this->cell_padding['L'] - $this->cell_padding['R']))
 							AND ((($this->rtl) AND (($this->x - $imgw) < ($this->lMargin + $this->cell_padding['L'])))
-							OR ((!$this->rtl) AND (($this->x + $imgw) > ($this->w - $this->rMargin - $this->cell_padding['R']))))) {
+								OR ((!$this->rtl) AND (($this->x + $imgw) > ($this->w - $this->rMargin - $this->cell_padding['R']))))) {
 							// add automatic line break
 							$autolinebreak = true;
 							$this->Ln('', $cell);
@@ -17433,8 +17435,8 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 								($dom[$key]['tag'] AND $dom[$key]['opening'] AND ($dom[$key]['value'] == 'li'))
 								OR ($this->cell_height_ratio != $dom[$key]['line-height'])
 								OR (!$this->newline AND is_numeric($fontsize) AND is_numeric($curfontsize)
-								AND ($fontsize >= 0) AND ($curfontsize >= 0)
-								AND (($fontsize != $curfontsize) OR ($fontstyle != $curfontstyle) OR ($fontname != $curfontname)))
+									AND ($fontsize >= 0) AND ($curfontsize >= 0)
+									AND (($fontsize != $curfontsize) OR ($fontstyle != $curfontstyle) OR ($fontname != $curfontname)))
 							)) {
 							if ($this->page > $startlinepage) {
 								// fix lines splitted over two pages
@@ -17727,7 +17729,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 										$spacew = ($spacewidth * $ns);
 									}
 									$offset = $strpiece[2][1] + strlen($strpiece[2][0]);
-									$epsposend = strpos($pmid, $this->epsmarker.'Q', $offset);				
+									$epsposend = strpos($pmid, $this->epsmarker.'Q', $offset);
 									if ($epsposend !== null) {
 										$epsposend += strlen($this->epsmarker.'Q');
 										$epsposbeg = strpos($pmid, 'q'.$this->epsmarker, $offset);
@@ -18026,6 +18028,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 						} else {
 							$cellspacing = array('H' => 0, 'V' => 0);
 						}
+
 						// table width
 						if (isset($dom[$key]['width'])) {
 							$table_width = $this->getHTMLUnitToUnits($dom[$key]['width'], $wtmp, 'px');
@@ -18047,6 +18050,9 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 						$table_min_column_width = ($table_columns_width / $dom[$key]['cols']);
 						// array of custom column widths
 						$table_colwidths = array_fill(0, $dom[$key]['cols'], $table_min_column_width);
+					}
+					if(!isset($cellspacing) || !is_array($cellspacing)){
+						$cellspacing = array('H' => 0, 'V' => 0);
 					}
 					// table row
 					if ($dom[$key]['value'] == 'tr') {
@@ -18112,6 +18118,9 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 							$dom[$trid]['starty'] = $this->y;
 						} else {
 							$this->y = $dom[$trid]['starty'];
+						}
+						if(!isset($cellspacingx)){
+							$cellspacingx = 0;
 						}
 						if (!isset($dom[$trid]['startx'])) {
 							$dom[$trid]['startx'] = $this->x;
@@ -18463,8 +18472,8 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 				} else {
 					$loop = 0;
 					// add the positive font spacing of the last character (if any)
-					 if ($this->font_spacing > 0) {
-					 	if ($this->rtl) {
+					if ($this->font_spacing > 0) {
+						if ($this->rtl) {
 							$this->x -= $this->font_spacing;
 						} else {
 							$this->x += $this->font_spacing;
@@ -18829,9 +18838,9 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 						$tag['height'] = 0;
 					}
 					//if (!isset($tag['attribute']['align'])) {
-						// the only alignment supported is "bottom"
-						// further development is required for other modes.
-						$tag['attribute']['align'] = 'bottom';
+					// the only alignment supported is "bottom"
+					// further development is required for other modes.
+					$tag['attribute']['align'] = 'bottom';
 					//}
 					switch($tag['attribute']['align']) {
 						case 'top': {
@@ -20574,7 +20583,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 			'page' => $this->page,
 			'current_column' => $this->current_column,
 			'num_columns' => $this->num_columns
-			);
+		);
 		return $grapvars;
 	}
 
@@ -20587,7 +20596,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 	 */
 	protected function setGraphicVars($gvars, $extended=false) {
 		if ($this->state != 2) {
-			 return;
+			return;
 		}
 		$this->FontFamily = $gvars['FontFamily'];
 		$this->FontStyle = $gvars['FontStyle'];
@@ -21880,7 +21889,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 	 * @param $params (array) Array of parameters: enabled (boolean) set to true to enable shadow; depth_w (float) shadow width in user units; depth_h (float) shadow height in user units; color (array) shadow color or false to use the stroke color; opacity (float) Alpha value: real value from 0 (transparent) to 1 (opaque); blend_mode (string) blend mode, one of the following: Normal, Multiply, Screen, Overlay, Darken, Lighten, ColorDodge, ColorBurn, HardLight, SoftLight, Difference, Exclusion, Hue, Saturation, Color, Luminosity.
 	 * @since 5.9.174 (2012-07-25)
 	 * @public
-	*/
+	 */
 	public function setTextShadow($params=array('enabled'=>false, 'depth_w'=>0, 'depth_h'=>0, 'color'=>false, 'opacity'=>1, 'blend_mode'=>'Normal')) {
 		if (isset($params['enabled'])) {
 			$this->txtshadow['enabled'] = $params['enabled']?true:false;
@@ -22315,7 +22324,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 	 */
 	public function printTemplate($id, $x='', $y='', $w=0, $h=0, $align='', $palign='', $fitonpage=false) {
 		if ($this->state != 2) {
-			 return;
+			return;
 		}
 		if (!isset($this->xobjects[$id])) {
 			$this->Error('The XObject Template \''.$id.'\' doesn\'t exist!');
@@ -22668,7 +22677,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 	 */
 	public function ImageSVG($file, $x='', $y='', $w=0, $h=0, $link='', $align='', $palign='', $border=0, $fitonpage=false) {
 		if ($this->state != 2) {
-			 return;
+			return;
 		}
 		// reset SVG vars
 		$this->svggradients = array();
@@ -23028,7 +23037,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 	 */
 	protected function setSVGStyles($svgstyle, $prevsvgstyle, $x=0, $y=0, $w=1, $h=1, $clip_function='', $clip_params=array()) {
 		if ($this->state != 2) {
-			 return;
+			return;
 		}
 		$objstyle = '';
 		$minlen = (0.01 / $this->k); // minimum acceptable length
@@ -23198,7 +23207,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 				'width' => $this->getHTMLUnitToUnits($svgstyle['stroke-width'], 0, $this->svgunit, false),
 				'cap' => $svgstyle['stroke-linecap'],
 				'join' => $svgstyle['stroke-linejoin']
-				);
+			);
 			if (isset($svgstyle['stroke-dasharray']) AND !empty($svgstyle['stroke-dasharray']) AND ($svgstyle['stroke-dasharray'] != 'none')) {
 				$stroke_style['dash'] = $svgstyle['stroke-dasharray'];
 			}
@@ -23323,7 +23332,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 	 */
 	protected function SVGPath($d, $style='') {
 		if ($this->state != 2) {
-			 return;
+			return;
 		}
 		// set fill/stroke style
 		$op = TCPDF_STATIC::getPathPaintOperator($style, '');
@@ -23685,7 +23694,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 		}
 		return $name;
 	}
-		
+
 	/**
 	 * Sets the opening SVG element handler function for the XML parser. (*** TO BE COMPLETED ***)
 	 * @param $parser (resource) The first parameter, parser, is a reference to the XML parser calling the handler.
@@ -23944,7 +23953,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 				//$attribs['spreadMethod']
 				if (((!isset($attribs['cx'])) AND (!isset($attribs['cy'])))
 					OR ((isset($attribs['cx']) AND (substr($attribs['cx'], -1) == '%'))
-					OR (isset($attribs['cy']) AND (substr($attribs['cy'], -1) == '%')))) {
+						OR (isset($attribs['cy']) AND (substr($attribs['cy'], -1) == '%')))) {
 					$this->svggradients[$this->svggradientid]['mode'] = 'percentage';
 				} elseif (isset($attribs['r']) AND is_numeric($attribs['r']) AND ($attribs['r']) <= 1) {
 					$this->svggradients[$this->svggradientid]['mode'] = 'ratio';
