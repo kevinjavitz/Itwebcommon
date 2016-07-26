@@ -46,6 +46,15 @@ class ITwebexperts_Itwebcommon_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Checks if Amasty customer attribute is installed
+     * @return bool
+     */
+    public function hasMojoBundle()
+    {
+        return Mage::helper('core')->isModuleEnabled('GetSomeMojo_Bundledmojo');
+    }
+
+    /**
      * Checks if payperrentals is installed
      * @return bool
      */
