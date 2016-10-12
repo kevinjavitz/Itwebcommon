@@ -387,24 +387,16 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 
                 foreach ($skuData as $attrCode => $attrData) {
                     foreach ($attrData as $storeId => $value) {
-                        $delEntries = Mage::getModel('payperrentals/reservationprices')
-                            ->getCollection()
-                            ->addEntityStoreFilter($productId, $storeId)
-                            ->load();
-                        foreach ($delEntries as $delEntry) {
-                            $delEntry->delete();
-                        }
-
-                        $delEntries = Mage::getModel('payperrentals/excludeddates')
-                            ->getCollection()
-                            ->addProductStoreFilter($productId, $storeId)
-                            ->load();
-                        foreach ($delEntries as $delEntry) {
-                            $delEntry->delete();
-                        }
 
                         // res_prices
                         if ($attrCode == 'res_prices') {
+							$delEntries = Mage::getModel('payperrentals/reservationprices')
+								->getCollection()
+								->addEntityStoreFilter($productId, $storeId)
+								->load();
+							foreach ($delEntries as $delEntry) {
+								$delEntry->delete();
+							}
                             $arrValues = explode(";", $value);
                             foreach ($arrValues as $arrValue) {
                                 $insertValue = explode("=", $arrValue);
@@ -430,6 +422,13 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 
                         // res_excluded_dates
                         if ($attrCode == 'res_excluded_dates') {
+							$delEntries = Mage::getModel('payperrentals/excludeddates')
+								->getCollection()
+								->addProductStoreFilter($productId, $storeId)
+								->load();
+							foreach ($delEntries as $delEntry) {
+								$delEntry->delete();
+							}
                             $arrValues = explode(";", $value);
                             foreach ($arrValues as $arrValue) {
                                 $insertValue = explode("=", $arrValue);
