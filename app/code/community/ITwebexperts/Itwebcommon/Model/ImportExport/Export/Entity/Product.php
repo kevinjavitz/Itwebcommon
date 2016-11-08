@@ -34,6 +34,9 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 
 			/** @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
 			$validAttrCodes  = $this->_getExportAttrCodes();
+			if (($key = array_search('inventory_serialized', $validAttrCodes)) !== false) {
+				unset($validAttrCodes[$key]);
+			}
 			$writer          = $this->getWriter();
 			$defaultStoreId  = Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
 
@@ -124,10 +127,6 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 								if(count($resprices) > 0){
 									$attrValue = implode(';',$resprices);
 								}
-							}
-
-							if ($attrCode == 'inventory_serialized') {
-								$attrValue = '';
 							}
 
 							// res_excluded_dates
