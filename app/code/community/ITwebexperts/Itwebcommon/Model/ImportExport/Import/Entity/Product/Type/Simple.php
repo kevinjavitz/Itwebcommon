@@ -3,7 +3,7 @@ if(Mage::helper('itwebcommon')->hasPayperrentals()){
 	class ITwebexperts_Itwebcommon_Model_ImportExport_Import_Entity_Product_Type_Simple
 		extends Mage_ImportExport_Model_Import_Entity_Product_Type_Simple
 	{
-		public function prepareAttributesForSave(array $rowData)
+		public function prepareAttributesForSave(array $rowData, $withDefaultValue = true)
 		{
 			$resultAttrs = array();
 
