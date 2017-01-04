@@ -219,6 +219,17 @@ if (Mage::helper('itwebcommon')->hasPayperrentals()) {
                                     $attrValue = null;
                                 }
                             }
+
+                            /*
+                             * 2017-01-04 Thanh fix attribute fixed_rental_name when customer export product
+                             * The issue is fixed_rental_name had default value is 0(which was wrong app/code/community/ITwebexperts/Payperrentals/sql/payperrentals_setup/mysql4-upgrade-1.4.20150715-1.4.20150813.php:102).
+                             * So when we export product, fixed_rental_name value will be 0.
+                             */
+                            if ($attrCode === 'fixed_rental_name' && $attrValue === '0') {
+                                $attrValue = null;
+                            }
+                            // 2017-01-04 Thanh End
+
                             // do not save value same as default or not existent
                             if ($storeId != $defaultStoreId
                                 && isset($dataRows[$itemId][$defaultStoreId][$attrCode])
