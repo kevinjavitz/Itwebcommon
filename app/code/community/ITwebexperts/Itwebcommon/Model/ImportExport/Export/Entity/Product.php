@@ -124,6 +124,8 @@ if (Mage::helper('itwebcommon')->hasPayperrentals()) {
                                     $periodType = $this->_getPType($itemcol->getPtype());
                                     $periodTypeAdditional = $this->_getPType($itemcol->getPtypeadditional());
                                     $resprices[] = $itemcol->getNumberof() . '=' . $periodType . '=' . $itemcol->getPrice() . '=' . $itemcol->getQtyStart() . '=' . $itemcol->getQtyEnd() . '=' . $itemcol->getDateFrom() . '=' . $itemcol->getDateTo() . '=' . $itemcol->getPriceadditional() . '=' . $periodTypeAdditional . '=' . $itemcol->getCustomersGroup();
+                                    // below can be commented out if prices dates id is not needed
+                                    $resprices[count($resprices)-1] .= '=' . $itemcol->getReservationpricesdatesId();
                                 }
                                 if (count($resprices) > 0) {
                                     $attrValue = implode(';', $resprices);
